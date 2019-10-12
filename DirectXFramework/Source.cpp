@@ -151,7 +151,6 @@ int main(int argc, char *argv[])
 	Framework::instanse().AddGameobject(C1);
 	Framework::instanse().AddGameobject(C2);
 	Framework::instanse().AddGameobject(C3);
-	//Framework::instanse().AddGameobject(P3);
 	Framework::instanse().Run();
 	}
 	catch (std::exception e)

@@ -58,25 +58,6 @@ WORD Cubeindices[] =
 };
 
 
-/*int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
-{
-	MSG msg;
-	int i;
-	std::cin >> i;
-	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(lpCmdLine);
-	std::cout << 2;
-	Framework::instanse().Initialize("XD",hInstance,nCmdShow);
-	//std::cout << 3;
-	//MeshRenderer *meshrenderer = new MeshRenderer(vertices, indices, "urok4.fx", 18,5);
-	//std::cout << 4;
-	//meshrenderer->InitMesh();
-
-	////Gameobject* gameobject = new Gameobject();
-	////gameobject->AddComponent(meshrenderer);
-	msg = Framework::instanse().Run();
-	return (int)msg.wParam;
-}*/
 
 
 int main(int argc, char *argv[])

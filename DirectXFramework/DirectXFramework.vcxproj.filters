@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Mouse">
       <UniqueIdentifier>{b57c9a61-93ac-4614-8e76-a6579467a26b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\RenderComponents">
+      <UniqueIdentifier>{f9c587a7-cc9e-4e0c-b861-05333502971f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RenderComponents">
+      <UniqueIdentifier>{61961021-beea-412c-bf0c-b5aa3fd43fde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -31,9 +37,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Gameobject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
@@ -50,6 +53,12 @@
     </ClCompile>
     <ClCompile Include="Mouse\MouseEvent.cpp">
       <Filter>Source Files\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderomponents\MeshRenderer.cpp">
+      <Filter>Source Files\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>Source Files\RenderComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,9 +83,6 @@
     <ClInclude Include="Gameobject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -92,6 +98,12 @@
     <ClInclude Include="Mouse\MouseEvent.h">
       <Filter>Header Files\Mouse</Filter>
     </ClInclude>
+    <ClInclude Include="Renderomponents\MeshRenderer.h">
+      <Filter>Header Files\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>Header Files\RenderComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="urok4.fx" />
@@ -100,6 +112,5 @@
     <None Include="SimpleMath.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

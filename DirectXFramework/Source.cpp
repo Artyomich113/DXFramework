@@ -1,11 +1,7 @@
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <new.h>
-
 #include "Camera.h"
 #include "Framework.h"
-#include "MeshRenderer.h"
+#include "Renderomponents/MeshRenderer.h"
 #include "Behaviour.h"
 
 
@@ -31,14 +27,14 @@ WORD Pyramidindices[] =
 
 SimpleVertex Cubevertices[] =
 {	/* координаты X, Y, Z				цвет R, G, B, A					 */
-	{ XMFLOAT3(1.0f,  2.0f,  -1.0f), XMFLOAT4(0.0f, 0.0f, 4.0f, 1.0f) },
-	{ XMFLOAT3(-1.0f,  2.0f,  1.0f), XMFLOAT4(0.0f, 0.0f, 4.0f, 1.0f) },
-	{ XMFLOAT3(1.0f,  2.0f,  1.0f), XMFLOAT4(0.0f, 0.0f, 4.0f, 1.0f) },
-	{ XMFLOAT3(-1.0f,  2.0f,  -1.0f), XMFLOAT4(0.0f, 0.0f, 4.0f, 1.0f) },
-	{ XMFLOAT3(-1.0f,  0.0f, -1.0f), XMFLOAT4(4.0f, 4.0f, 0.0f, 1.0f) },
-	{ XMFLOAT3(1.0f,  0.0f, -1.0f), XMFLOAT4(4.0f, 4.0f, 0.0f, 1.0f) },
-	{ XMFLOAT3(-1.0f,  0.0f,  1.0f), XMFLOAT4(4.0f, 4.0f, 0.0f, 1.0f) },
-	{ XMFLOAT3(1.0f,  0.0f,  1.0f), XMFLOAT4(4.0f, 4.0f, 0.0f, 1.0f) }
+	{ XMFLOAT3(1.0f,  2.0f,  -1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
+	{ XMFLOAT3(-1.0f,  2.0f,  1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
+	{ XMFLOAT3(1.0f,  2.0f,  1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
+	{ XMFLOAT3(-1.0f,  2.0f,  -1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
+	{ XMFLOAT3(-1.0f,  0.0f, -1.0f), XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f) },
+	{ XMFLOAT3(1.0f,  0.0f, -1.0f), XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f) },
+	{ XMFLOAT3(-1.0f,  0.0f,  1.0f), XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f) },
+	{ XMFLOAT3(1.0f,  0.0f,  1.0f), XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f) }
 };
 
 WORD Cubeindices[] =

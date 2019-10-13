@@ -9,6 +9,3 @@ public:
 	Gameobject *gameobject;
 	virtual void process() = 0;
 };
-
-
-

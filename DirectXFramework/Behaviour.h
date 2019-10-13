@@ -9,6 +9,7 @@ class RotateQ : virtual public Component
 	XMVECTOR axis;
 	float rotationRad;
 public:
+	Layout ComponentType() { return Layout::GameLogic; };
 	RotateQ(const RotateQ& ob)
 	{
 		axis = ob.axis;
@@ -25,6 +26,7 @@ class RotateV : virtual public Component
 	float y;
 	float z;
 	public:
+		Layout ComponentType() { return Layout::GameLogic; };
 	RotateV(const RotateV& ob)
 	{
 		x = ob.x;
@@ -41,6 +43,7 @@ class Translator : virtual public Component
 {
 	XMVECTOR direction;
 	public:
+		Layout ComponentType() { return Layout::GameLogic; };
 	Translator(const Translator& ob)
 	{
 		direction = ob.direction;
@@ -61,6 +64,7 @@ class RotateAround : virtual public Component
 	XMVECTOR axis;
 	float angle;
 	public:
+		Layout ComponentType() { return Layout::GameLogic; };
 	RotateAround(const RotateAround& ob);
 	RotateAround(XMVECTOR point,XMVECTOR axis,float angle)
 	{
@@ -76,6 +80,7 @@ class Controller : virtual public Component
 	float speed;
 	float angle;
 public:
+	Layout ComponentType() { return Layout::GameLogic; };
 	Controller(float speed, float angle)
 	{
 		this->angle = angle * XM_PI / 180.0f;

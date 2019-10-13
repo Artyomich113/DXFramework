@@ -14,6 +14,7 @@ class MeshRenderer : virtual public Component
 	ID3D11Buffer*           g_pIndexBuffer = NULL;		// Буфер индексов вершин
 	ID3D11Buffer*           g_pConstantBuffer = NULL;	// Константный буфер
 public:
+	Layout ComponentType(){return Layout::Render;};
 	MeshRenderer(const MeshRenderer&);
 	HRESULT InitShader(std::string);
 

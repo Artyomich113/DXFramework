@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <Windows.h>
+//#include <Windows.h>
 #include <D3Dcompiler.h>
 #include <D3D11.h>
 #include <D3DX11.h>
@@ -28,6 +28,7 @@ public:
 	DXManager();
 	~DXManager();
 
+	//bool Initialize(int screenWight,int screenHeight, bool vsync, HWND hwnd, bool fullscreen);
 	HRESULT InitDevice(HWND g_hWnd);
 	void BeginScene(float, float, float, float);
 	void EndScene();

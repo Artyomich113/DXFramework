@@ -27,7 +27,7 @@ class Camera: virtual public Component
 		//std::cout << "\ncamera is aligned by " << 16;
 		void* p = _aligned_malloc(size, 16);
 		if(!p)
-			throw std::bad_alloc();
+		throw std::bad_alloc();
 
 		return p;
 	}

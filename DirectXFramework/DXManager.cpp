@@ -2,13 +2,13 @@
 #include "SystemDefs.h"
 #include <iostream>
 
-
 HRESULT CompileShaderFromFile(LPCSTR szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
 {
 	HRESULT hr = S_OK;
 	DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
 	ID3DBlob* pErrorBlob;
-	hr = D3DX11CompileFromFile(szFileName, NULL, NULL, szEntryPoint, szShaderModel,dwShaderFlags, 0, NULL, ppBlobOut, &pErrorBlob, NULL);
+	hr = D3DX11CompileFromFile(szFileName, NULL, NULL, szEntryPoint, szShaderModel,
+		dwShaderFlags, 0, NULL, ppBlobOut, &pErrorBlob, NULL);
 	if (FAILED(hr))
 	{
 		if (pErrorBlob != NULL)
@@ -220,7 +220,9 @@ HRESULT DXManager::InitDevice(HWND g_hWnd)
 	for (UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++)
 	{
 		g_driverType = driverTypes[driverTypeIndex];
-		hr = D3D11CreateDeviceAndSwapChain(NULL, g_driverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels, D3D11_SDK_VERSION, &sd, &m_swapChain, &m_device, &g_featureLevel, &m_deviceContext);
+		hr = D3D11CreateDeviceAndSwapChain(NULL,g_driverType, NULL, createDeviceFlags,
+		featureLevels, numFeatureLevels,D3D11_SDK_VERSION, &sd, &m_swapChain,
+		&m_device, &g_featureLevel, &m_deviceContext);
 		if (SUCCEEDED(hr)) // Если устройства созданы успешно, то выходим из цикла
 			break;
 	}

@@ -11,7 +11,7 @@ class DXManager;
 class Camera: virtual public Component
 {
 	public:	
-		Layout ComponentType(){return Layout::GameLogic;};
+		Layout ComponentType(){return Layout::Render;};
 	XMMATRIX g_view;
 	XMMATRIX g_Projection;
 	Camera();

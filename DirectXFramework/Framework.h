@@ -10,10 +10,14 @@
 #include <string>
 #include <cstring>
 #include <list>
+#include <map>
 
 //class DXManager;
 class Gameobject;
 class Camera;
+
+template<typename T>
+using shared = std::shared_ptr<T>;
 
 class Framework
 {
@@ -26,12 +30,15 @@ public:
 		static Framework framework;
 		return framework;
 	}
+	bool IsRunning;
+	std::map<Component::Layout,shared<std::list<Component*>>> ComponentsByLayout;
 	MouseClass mouse;
 	bool Initialize(std::string name);
 	Camera* camera;
 	DXManager* GetDXManager(){return dxmanager;}
 	std::list<Gameobject*> gameobjects;
 	void AddGameobject(Gameobject*);
+	void AddComponent(Component*);
 	MSG Run();
 	void proceedAllGameobjects();
 	//private:

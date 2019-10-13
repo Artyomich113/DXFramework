@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
 	//std::cout <<"\n cam bytes" << sizeof(Camera);
 
 	Framework::instanse().camera = cam;
-	Controller* cont = new Controller(2.0f, 5.0f/FRAME_RATE);
+	Controller* cont = new Controller(2.0f, 5.0f);
 	RotateQ *rotateQ = new RotateQ(30.0f/FRAME_RATE, XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
 	RotateQ *RotQ = new RotateQ(30.0f/FRAME_RATE,XMVectorSet(1.0f,1.0f,1.0f,0.0f));
 

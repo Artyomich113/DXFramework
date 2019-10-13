@@ -8,7 +8,9 @@
 
 #define WINDOW_POSY 85
 
-#define FRAME_RATE 30
+#define FRAME_RATE 60
+
+#define FIXED_DELTA_TIME 0.02f
 
 const float SCREEN_DEPTH = 1000.0f;
 

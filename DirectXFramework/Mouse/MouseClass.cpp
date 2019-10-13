@@ -65,6 +65,7 @@ void MouseClass::OnMouseMove(int x, int y)
 void MouseClass::OnMouseMoveRaw(int x, int y)
 {
 	eventBuffer.push(MouseEvent(MouseEvent::EventType::RAW_MOVE,x,y));
+	std::cout << "\nincrement" << x << " " << y;
 	RawInput.x += x;
 	RawInput.y += y;
 }

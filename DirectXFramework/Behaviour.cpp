@@ -14,7 +14,7 @@ void RotateQ::process()
 	}
 	if (rotationRad > XM_PIDIV2)
 	{
-		gameobject->transform->Translate(XMVectorSet(0,1.0f/FRAME_RATE,0,0));
+		gameobject->transform->Translate(XMVectorSet(0,1.0f* FIXED_DELTA_TIME,0,0));
 	}
 	if (rotationRad < XM_PIDIV2)
 	{
@@ -66,49 +66,31 @@ void RotateV::process()
 
 void Controller::process()
 {
+	
+
 	if (GetKeyState('W') & 0x8000)
 	{
-		gameobject->transform->Translate(gameobject->transform->Forward() * speed / (FLOAT)FRAME_RATE);
+		gameobject->transform->Translate(gameobject->transform->Forward() * speed * FIXED_DELTA_TIME);
 	}
 	if (GetKeyState('A') & 0x8000)
 	{
-		gameobject->transform->Translate(gameobject->transform->Left() * speed / (FLOAT)FRAME_RATE);
+		gameobject->transform->Translate(gameobject->transform->Left() * speed * FIXED_DELTA_TIME);
 	}
 	if (GetKeyState('S') & 0x8000)
 	{
-		gameobject->transform->Translate(gameobject->transform->Back() * speed / (FLOAT)FRAME_RATE);
+		gameobject->transform->Translate(gameobject->transform->Back() * speed * FIXED_DELTA_TIME);
 	}
 	if (GetKeyState('D') & 0x8000)
 	{
-		gameobject->transform->Translate(gameobject->transform->Right() * speed / (FLOAT)FRAME_RATE);
+		gameobject->transform->Translate(gameobject->transform->Right() * speed * FIXED_DELTA_TIME);
 	}
-	if (GetKeyState('R') & 0x8000)
-	{
-		gameobject->transform->Translate(gameobject->transform->Up() * speed / (FLOAT)FRAME_RATE);
-	}
-	if (GetKeyState('F') & 0x8000)
-	{
-		gameobject->transform->Translate(gameobject->transform->Down() * speed / (FLOAT)FRAME_RATE);
-	}
+	
 	//gameobject->transform->Rotate(XMVectorSet(0.0f,1.0f,0.0f,0.0f) ,angle * Framework::instanse().mouse.RawInput.x);
 	//gameobject->transform->Rotate(XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f), angle * Framework::instanse().mouse.RawInput.y);
 	//не трогать. smileyface
-	gameobject->transform->RotateWR(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), angle * Framework::instanse().mouse.RawInput.x);
-	gameobject->transform->RotateWR(gameobject->transform->Right()/*XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f)*/, angle * Framework::instanse().mouse.RawInput.y);//bug
-	/*if (GetKeyState('G') & 0x8000)
-	{
-		gameobject->transform->Rotate(gameobject->transform->Right(), angle);
-	}
-	if (GetKeyState('T') & 0x8000)
-	{
-		gameobject->transform->Rotate(gameobject->transform->Right(), -angle);
-	}
-	if (GetKeyState('V') & 0x8000)
-	{
-		gameobject->transform->Rotate(gameobject->transform->Up(), angle);
-	}
-	if (GetKeyState('B') & 0x8000)
-	{
-		gameobject->transform->Rotate(gameobject->transform->Up(), -angle);
-	}*/
+	gameobject->transform->RotateWR(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), angle * FIXED_DELTA_TIME * Framework::instanse().mouse.RawInput.x);
+	gameobject->transform->RotateWR(gameobject->transform->Right()/*XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f)*/, angle * FIXED_DELTA_TIME * Framework::instanse().mouse.RawInput.y);//bug
+	
+	std::cout <<" \n " << Framework::instanse().mouse.RawInput.x << " " << Framework::instanse().mouse.RawInput.y;
+
 }

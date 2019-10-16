@@ -9,13 +9,16 @@ MeshRenderer::MeshRenderer(const MeshRenderer &ob)
 	g_pVertexBuffer = ob.g_pVertexBuffer;
 	g_pIndexBuffer = ob.g_pIndexBuffer;
 	g_pConstantBuffer = ob.g_pConstantBuffer;
+
+
+	shaderPointers = ob.shaderPointers;
 	dxmanager = Framework::instanse().GetDXManager();
 }
-
+/*
 HRESULT MeshRenderer::InitShader(std::string name)
 {
 	return dxmanager->InitShader(name);
-}
+}*/
 
 HRESULT MeshRenderer::InitMesh()
 {
@@ -110,6 +113,21 @@ MeshRenderer::~MeshRenderer()
 	delete Indices;
 }
 
+D3D11_INPUT_ELEMENT_DESC * MeshRenderer::layout()
+{
+	D3D11_INPUT_ELEMENT_DESC layout[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
+	return layout;
+}
+
+UINT MeshRenderer::NumberOfElements()
+{
+	return (UINT)2;//ARRAYSIZE(layout);
+}
+
 inline void MeshRenderer::process()
 {
 	//std::cout <<"\nMR";
@@ -127,10 +145,10 @@ inline void MeshRenderer::process()
 	//std::cout << "\ng_World";
 	cb.mWorld = XMMatrixTranspose(g_World);
 	//std::cout << "\ng_View";
-	
+	//cb.mView = XMMatrixTranspose(Framework::instanse().camera->GetView());
 	cb.mView = XMMatrixTranspose(Framework::instanse().camera->g_view);
 	//std::cout << "\ng_Projection";
-	
+	//cb.mProjection = XMMatrixTranspose(Framework::instanse().camera->GetProjection());
 	cb.mProjection = XMMatrixTranspose(Framework::instanse().camera->g_Projection);
 	//std::cout << "\nsubresource";
 	UINT stride = sizeof(SimpleVertex);
@@ -146,8 +164,9 @@ inline void MeshRenderer::process()
 
 
 	//std::cout << "\nContext";
-	id3d11devicecontext->VSSetShader(dxmanager->m_VertexShader, NULL, 0);
+	//id3d11devicecontext->VSSetShader(dxmanager->m_VertexShader, NULL, 0);
+	id3d11devicecontext->VSSetShader(shaderPointers.m_VertexShader, NULL, 0);
 	id3d11devicecontext->VSSetConstantBuffers(0, 1, &g_pConstantBuffer);
-	id3d11devicecontext->PSSetShader(dxmanager->m_PixelShader, NULL, 0);
+	id3d11devicecontext->PSSetShader(shaderPointers.m_PixelShader, NULL, 0);
 	id3d11devicecontext->DrawIndexed(NumOfIndexes, 0, 0);
 }

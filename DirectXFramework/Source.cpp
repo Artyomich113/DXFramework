@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Framework.h"
 #include "MeshRenderer.h"
+#include "Mesh.h"
 #include "Behaviour.h"
 
 
@@ -66,9 +67,19 @@ int main(int argc, char *argv[])
 	{
 	Framework::instanse().Initialize("XD");
 	MeshRenderer *PyrMR = new MeshRenderer(Pyramidvertices, Pyramidindices, 18,5);
-	MeshRenderer *CubeMR = new MeshRenderer(Cubevertices,Cubeindices,36,8);
 	
-	PyrMR->InitShader("urok4.fx");
+	if (FAILED(PyrMR->InitShader("urok4.fx")))
+	{
+		std::cout << "\nfailed init shader urok4";
+		throw 1;
+	}
+	
+	MeshRenderer *CubeMR = new MeshRenderer(Cubevertices,Cubeindices,36,8);
+	if (FAILED(CubeMR->InitShader("urok4.fx")))
+	{
+		std::cout << "\nfailed init shader urok4";
+		throw 1;
+	}
 	
 	if (FAILED(PyrMR->InitMesh()))
 	{

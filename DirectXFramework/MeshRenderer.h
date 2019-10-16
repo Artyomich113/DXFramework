@@ -1,22 +1,18 @@
 #pragma once
 #include "Component.h"
 #include "Framework.h"
+#include "Mesh.h"
 
 class Camera;
 
-class MeshRenderer : virtual public Component
+class MeshRenderer : virtual public Mesh
 {
 	DXManager* dxmanager;
-	int NumOfIndexes;
-	int NumOfVerteces;
 
-	ID3D11Buffer*           g_pVertexBuffer = NULL;		// Буфер вершин
-	ID3D11Buffer*           g_pIndexBuffer = NULL;		// Буфер индексов вершин
-	ID3D11Buffer*           g_pConstantBuffer = NULL;	// Константный буфер
 public:
 	Layout ComponentType(){return Layout::Render;};
 	MeshRenderer(const MeshRenderer&);
-	HRESULT InitShader(std::string);
+	//HRESULT InitShader(std::string);
 
 	HRESULT InitMesh();
 	std::string ShaderName;
@@ -25,8 +21,9 @@ public:
 	WORD * Indices;
 
 	MeshRenderer(SimpleVertex*,WORD*, /*std::string,*/int indexes,int verteces);
-	//void SetVertexes(SimpleVertex);
-	//void SetIndexes(WORD);
+	
+	D3D11_INPUT_ELEMENT_DESC * layout();
+	UINT NumberOfElements();
 	~MeshRenderer();
 	void process();
 };

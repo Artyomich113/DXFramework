@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 //#include <Windows.h>
+#include <map>
 #include <D3Dcompiler.h>
 #include <D3D11.h>
 #include <D3DX11.h>
@@ -8,6 +9,15 @@
 #include "resource.h"
 
 class Framework;
+
+
+
+struct ShaderPointers
+{
+	ID3D11VertexShader*     m_VertexShader = NULL;		// Вершинный шейдер
+	ID3D11PixelShader*      m_PixelShader = NULL;		// Пиксельный шейдер
+	ID3D11InputLayout*      g_pVertexLayout = NULL;		// Описание формата вершин
+};
 
 struct ConstantBuffer
 {
@@ -28,6 +38,7 @@ public:
 	DXManager();
 	~DXManager();
 
+	std::map<std::string,ShaderPointers> Shaders;
 	//bool Initialize(int screenWight,int screenHeight, bool vsync, HWND hwnd, bool fullscreen);
 	HRESULT InitDevice(HWND g_hWnd);
 	void BeginScene(float, float, float, float);
@@ -94,4 +105,4 @@ private:
 
 	D3D_DRIVER_TYPE         g_driverType = D3D_DRIVER_TYPE_NULL;
 	D3D_FEATURE_LEVEL       g_featureLevel = D3D_FEATURE_LEVEL_11_0;
-	};
+};

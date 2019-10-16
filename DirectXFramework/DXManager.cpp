@@ -313,11 +313,9 @@ std::cout << "\ninit shader " << filename;
 	
 	// Компиляция вершинного шейдера из файла
 	ID3DBlob* pVSBlob = NULL; // Вспомогательный объект - просто место в оперативной памяти
-	//std::wstring wname = std::wstring(filename.begin(),filename.end());
-	//const wchar_t* result = wname.c_str();
 
-	//WCHAR* wcfilename = new WCHAR[30];
-	//lstrcpyW(wcfilename, std::wstring(filename.begin(), filename.end()).c_str());
+
+	
 	std::cout << "\ncompile vertex shader";
 	hr = CompileShaderFromFile(filename.c_str(), "VS", "vs_4_0", &pVSBlob);
 	if (FAILED(hr))
@@ -339,7 +337,6 @@ std::cout << "\ninit shader " << filename;
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		
 	};
 	UINT numElements = ARRAYSIZE(layout);
 

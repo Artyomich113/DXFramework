@@ -46,6 +46,7 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="UIShader.fx" />
     <FxCompile Include="urok4.fx" />
   </ItemGroup>
   <ItemGroup>

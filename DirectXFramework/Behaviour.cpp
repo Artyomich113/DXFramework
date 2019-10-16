@@ -52,6 +52,7 @@ RotateV::RotateV(float x1, float y1, float z1)
 	z = z1* XM_PI/180;
 }
 
+
 RotateV::RotateV(XMVECTOR vector)
 {
 	x = vector.m128_f32[0];

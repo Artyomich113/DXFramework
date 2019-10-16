@@ -11,7 +11,7 @@
 
 
 SimpleVertex Pyramidvertices[] =
-{	/* координаты X, Y, Z				цвет R, G, B, A					 */
+{	/* координаты X, Y, Z				цвет R, G, B, A				*/
 	{ XMFLOAT3(0.0f,  1.5f,  0.0f), XMFLOAT4(-1.0f, 0.0f, 0.0f, 1.0f) },
 	{ XMFLOAT3(-1.2f,  0.0f, -1.2f), XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f) },
 	{ XMFLOAT3(1.2f,  0.0f, -1.2f), XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f) },
@@ -94,20 +94,21 @@ int main(int argc, char *argv[])
 	Gameobject* C3 = new Gameobject();
 	C1->transform->Position = XMVectorSet(-2.0f,0.0f,0.0f,0.0f);
 	C1->transform->LocalScale = XMVectorSet(0.5f,0.5f,0.5f,0.0f);
-	C2->transform->Position = XMVectorSet(0.0f, 2.0f, 0.0f, 0.0f);
+	C2->transform->Position = XMVectorSet(0.0f, 2.1f, 0.0f, 0.0f);
 	C2->transform->LocalScale = XMVectorSet(0.5f, 0.5f, 0.5f, 0.0f);
-	C3->transform->Position = XMVectorSet(-2.0f, 0.0f, 0.0f, 0.0f);
+	C3->transform->Position = XMVectorSet(-2.2f, 0.0f, 0.0f, 0.0f);
 	C3->transform->LocalScale = XMVectorSet(0.5f, 0.5f, 0.5f, 0.0f);
 
 	//void *ptr;
 	//ptr = _aligned_malloc(sizeof(Camera),16);
 	
-	//Camera * cam = new Camera();
+	//Camera * cam = ptr; //new Camera();
 
 	//Camera* cam = new(_aligned_malloc(sizeof(Camera), 16)) Camera();
 	Camera* cam = new Camera();
 	
-	//std::cout <<"\n cam address " << cam;
+	std::cout <<"\n cam address " << cam;
+	//getch();
 	//std::cout <<"\n cam bytes" << sizeof(Camera);
 
 	Framework::instanse().camera = cam;

@@ -120,25 +120,17 @@ inline void MeshRenderer::process()
 
 	XMMATRIX mscale = XMMatrixScalingFromVector(gameobject->transform->LocalScale);
 
-	//std::cout << "\n" << dxmanager->g_World._11 << " " << dxmanager->g_World._12 << " " << dxmanager->g_World._13 << " " << dxmanager->g_World._14 << "\n";
-	//std::cout << dxmanager->g_World._21 << " " << dxmanager->g_World._22 << " " << dxmanager->g_World._23 << " " << dxmanager->g_World._24 << "\n";
-	//::cout << dxmanager->g_World._31 << " " << dxmanager->g_World._32 << " " << dxmanager->g_World._33 << " " << dxmanager->g_World._34 << "\n";
-	//std::cout << dxmanager->g_World._41 << " " << dxmanager->g_World._42 << " " << dxmanager->g_World._43 << " " << dxmanager->g_World._44 << "\n";
-
+	
 	XMMATRIX g_World = mscale * mRotation * mTranslate;
-	//std::cout << "\n" << dxmanager->g_World._11 <<" "<< dxmanager->g_World._12<<" " << dxmanager->g_World._13<<" " << dxmanager->g_World._14 << "\n";
-	//std::cout << dxmanager->g_World._21 << " " << dxmanager->g_World._22 << " " << dxmanager->g_World._23 << " " << dxmanager->g_World._24 << "\n";
-	//std::cout << dxmanager->g_World._31 << " " << dxmanager->g_World._32 << " " << dxmanager->g_World._33 << " " << dxmanager->g_World._34 << "\n";
-	//std::cout << dxmanager->g_World._41 << " " << dxmanager->g_World._42 << " " << dxmanager->g_World._43 << " " << dxmanager->g_World._44 << "\n";
-	//std::cout << "\nConstantBuffer";
+	
 	ConstantBuffer cb;
 	//std::cout << "\ng_World";
 	cb.mWorld = XMMatrixTranspose(g_World);
 	//std::cout << "\ng_View";
-	//cb.mView = XMMatrixTranspose(Framework::instanse().camera->GetView());
+	
 	cb.mView = XMMatrixTranspose(Framework::instanse().camera->g_view);
 	//std::cout << "\ng_Projection";
-	//cb.mProjection = XMMatrixTranspose(Framework::instanse().camera->GetProjection());
+	
 	cb.mProjection = XMMatrixTranspose(Framework::instanse().camera->g_Projection);
 	//std::cout << "\nsubresource";
 	UINT stride = sizeof(SimpleVertex);

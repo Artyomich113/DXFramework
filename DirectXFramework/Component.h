@@ -11,7 +11,6 @@ public:
 	{
 		Render,
 		GameLogic,
-		Camera,
 	};
 	Gameobject *gameobject;
 	virtual void process() = 0;

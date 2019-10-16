@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="urok4.fx" />
+    <FxCompile Include="UIShader.fx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

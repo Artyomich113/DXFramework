@@ -92,6 +92,6 @@ void Controller::process()
 	gameobject->transform->RotateWR(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), angle * FIXED_DELTA_TIME * Framework::instanse().mouse.RawInput.x);
 	gameobject->transform->RotateWR(gameobject->transform->Right()/*XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f)*/, angle * FIXED_DELTA_TIME * Framework::instanse().mouse.RawInput.y);//bug
 	
-	std::cout <<" \n " << Framework::instanse().mouse.RawInput.x << " " << Framework::instanse().mouse.RawInput.y;
+	//std::cout <<" \n " << Framework::instanse().mouse.RawInput.x << " " << Framework::instanse().mouse.RawInput.y;
 
 }

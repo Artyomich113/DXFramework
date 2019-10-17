@@ -228,8 +228,6 @@ HRESULT DXManager::InitDevice(HWND g_hWnd)
 	}
 	if (FAILED(hr)) return hr;
 
-	
-
 	// Теперь создаем задний буфер. Обратите внимание, в SDK
 	// RenderTargetOutput - это передний буфер, а RenderTargetView - задний.
 	// Извлекаем описание заднего буфера

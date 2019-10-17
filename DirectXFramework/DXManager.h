@@ -19,18 +19,6 @@ struct ShaderPointers
 	ID3D11InputLayout*      g_pVertexLayout = NULL;		// Описание формата вершин
 };
 
-struct ConstantBuffer
-{
-	XMMATRIX mWorld;		// Матрица мира
-	XMMATRIX mView;			// Матрица вида
-	XMMATRIX mProjection;	// Матрица проекции
-};
-
-struct SimpleVertex
-{
-	XMFLOAT3 Pos;	// Координаты точки в пространстве
-	XMFLOAT4 Color;	// Теперь каждая вершина будет содержать информацию о цвете
-};
 
 class DXManager
 {

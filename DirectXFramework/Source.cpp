@@ -1,23 +1,19 @@
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <new.h>
 
 #include "Camera.h"
 #include "Framework.h"
-#include "MeshRenderer.h"
-#include "Mesh.h"
+#include "Mesh/MeshRenderer.h"
+#include "Mesh/MeshRendererUI.h"
+#include "Mesh/Mesh.h"
 #include "Behaviour.h"
-
-
 
 SimpleVertex Pyramidvertices[] =
 {	/* координаты X, Y, Z				цвет R, G, B, A				*/
 	{ XMFLOAT3(0.0f,  1.5f,  0.0f), XMFLOAT4(-1.0f, 0.0f, 0.0f, 1.0f) },
 	{ XMFLOAT3(-1.2f,  0.0f, -1.2f), XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f) },
-	{ XMFLOAT3(1.2f,  0.0f, -1.2f), XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f) },
-	{ XMFLOAT3(-1.2f,  0.0f,  1.2f), XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f) },
-	{ XMFLOAT3(1.2f,  0.0f,  1.2f), XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f) }
+	{ XMFLOAT3(1.2f,  0.0f, -1.2f), XMFLOAT4(0.0f, 0.9f, 0.9f, 1.0f) },
+	{ XMFLOAT3(-1.2f,  0.0f,  1.2f), XMFLOAT4(0.0f, 0.8f, 0.8f, 1.0f) },
+	{ XMFLOAT3(1.2f,  0.0f,  1.2f), XMFLOAT4(0.0f, 0.7f, 0.7f, 1.0f) }
 };
 
 WORD Pyramidindices[] =
@@ -66,9 +62,8 @@ int main(int argc, char *argv[])
 	try
 	{
 	Framework::instanse().Initialize("XD");
-	MeshRenderer *PyrMR = new MeshRenderer(Pyramidvertices, Pyramidindices, 18,5);
-	
-	if (FAILED(PyrMR->InitShader("urok4.fx")))
+	MeshRendererUI *PyrMR = new MeshRendererUI(Pyramidvertices, Pyramidindices, 18,5);
+	if (FAILED(PyrMR->InitShader("UIShader.fx")))
 	{
 		std::cout << "\nfailed init shader urok4";
 		throw 1;
@@ -103,10 +98,15 @@ int main(int argc, char *argv[])
 	Gameobject* C1 = new Gameobject();
 	Gameobject* C2 = new Gameobject();
 	Gameobject* C3 = new Gameobject();
+	P1->transform->Position = XMVectorSet(-1.5f,-1.5f,2.0f,0.0f);
+	P1->transform->LocalScale = XMVectorSet(0.5f,0.5f,0.5f,0.0f);
+
 	C1->transform->Position = XMVectorSet(-2.0f,0.0f,0.0f,0.0f);
 	C1->transform->LocalScale = XMVectorSet(0.5f,0.5f,0.5f,0.0f);
+	
 	C2->transform->Position = XMVectorSet(0.0f, 2.1f, 0.0f, 0.0f);
 	C2->transform->LocalScale = XMVectorSet(0.5f, 0.5f, 0.5f, 0.0f);
+	
 	C3->transform->Position = XMVectorSet(-2.2f, 0.0f, 0.0f, 0.0f);
 	C3->transform->LocalScale = XMVectorSet(0.5f, 0.5f, 0.5f, 0.0f);
 
@@ -118,14 +118,14 @@ int main(int argc, char *argv[])
 	//Camera* cam = new(_aligned_malloc(sizeof(Camera), 16)) Camera();
 	Camera* cam = new Camera();
 	
-	std::cout <<"\n cam address " << cam;
+	//std::cout <<"\n cam address " << cam;
 	//getch();
 	//std::cout <<"\n cam bytes" << sizeof(Camera);
 
 	Framework::instanse().camera = cam;
 	Controller* cont = new Controller(2.0f, 5.0f);
 	RotateQ *rotateQ = new RotateQ(30.0f/FRAME_RATE, XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
-	RotateQ *RotQ = new RotateQ(30.0f/FRAME_RATE,XMVectorSet(1.0f,1.0f,1.0f,0.0f));
+	RotateQ *RotQ111 = new RotateQ(30.0f/FRAME_RATE,XMVectorSet(1.0f,1.0f,1.0f,0.0f));
 
 	Translator *trans = new Translator(XMVectorSet(-1.0f / FRAME_RATE, 0, 0.0f, 0));
 	Translator *trans2 = new Translator(XMVectorSet(1.0f / FRAME_RATE, 0, 0.0f, 0));
@@ -155,8 +155,8 @@ int main(int argc, char *argv[])
 	//Pyramid->AddComponent(rotatearound2);
 	//P1->AddComponent(rotateQ);
 	//P1->AddComponent(rotateQ);
+	P1->AddComponent(RotQ111);
 	P1->AddComponent(PyrMR);
-	P1->transform->LocalScale = XMVectorSet(1.0f,0.25f,1.0f,0.0f);
 
 	Framework::instanse().AddGameobject(Player); 
 	Framework::instanse().AddGameobject(P1);

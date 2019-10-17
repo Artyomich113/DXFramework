@@ -60,16 +60,7 @@ HRESULT MeshRenderer::InitMesh()
 	return hr;
 	}
 
-	// Установка буфера вершин
-	//UINT stride = sizeof(SimpleVertex);
-	//UINT offset = 0;
-	//std::cout <<"\n    IASetVertexBuffers";
-	//dxmanager->m_deviceContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
-	// Установка буфера индексов
-	//std::cout << "\n   IASetIndexBuffer";
-	//dxmanager->m_deviceContext->IASetIndexBuffer(g_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
-	// Установка способа отрисовки вершин в буфере
-	//std::cout << "\n   IASetPrimitiveTopology";
+	
 	dxmanager->m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// Создание константного буфера
@@ -88,7 +79,7 @@ HRESULT MeshRenderer::InitMesh()
 	return hr;
 }
 
-MeshRenderer::MeshRenderer(SimpleVertex *vertices, WORD* indices, /*std::string shadername,*/int NumberOfIndexes, int NumberOfVerteces)
+MeshRenderer::MeshRenderer(SimpleVertex *vertices, WORD* indices, int NumberOfIndexes, int NumberOfVerteces)
 {
 	//ShaderName = shadername;
 	Vertices = vertices;
@@ -115,16 +106,23 @@ MeshRenderer::~MeshRenderer()
 
 D3D11_INPUT_ELEMENT_DESC * MeshRenderer::layout()
 {
-	D3D11_INPUT_ELEMENT_DESC layout[] =
+	
+	D3D11_INPUT_ELEMENT_DESC *layout = new D3D11_INPUT_ELEMENT_DESC[2];
+	layout[0] = { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 };
+	layout[1] = { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 };
+	/*D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
+	};*/
+	
+	std::cout << "\nReturning Layout " << layout;
 	return layout;
 }
 
 UINT MeshRenderer::NumberOfElements()
 {
+std::cout << "\nreturning number of elements " << 2;
 	return (UINT)2;//ARRAYSIZE(layout);
 }
 

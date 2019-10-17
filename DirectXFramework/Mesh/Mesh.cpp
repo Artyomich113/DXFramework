@@ -24,8 +24,6 @@ HRESULT Mesh::InitShader(std::string ShaderName)
 	// Компиляция вершинного шейдера из файла
 	ID3DBlob* pVSBlob = NULL; // Вспомогательный объект - просто место в оперативной памяти
 
-
-
 	std::cout << "\ncompile vertex shader";
 	hr = CompileShaderFromFile(ShaderName.c_str(), "VS", "vs_4_0", &pVSBlob);
 	if (FAILED(hr))
@@ -51,8 +49,15 @@ HRESULT Mesh::InitShader(std::string ShaderName)
 	//UINT numElements = ARRAYSIZE(layout);
 
 	// Создание шаблона вершин
-	std::cout << "\ncreate input layout";
-	hr = dxmanager->m_device->CreateInputLayout(layout(), NumberOfElements(), pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), &shaderPointers.g_pVertexLayout);
+	//*D3D11_INPUT_ELEMENT_DESC layout[] =
+	//{
+	//	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	//	{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	//};*/
+	//std::cout << "\ncreate input layout" << layout;
+	D3D11_INPUT_ELEMENT_DESC * lay = layout();
+	hr = dxmanager->m_device->CreateInputLayout(lay, NumberOfElements(), pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), &shaderPointers.g_pVertexLayout);
+	delete lay;
 
 	pVSBlob->Release();
 	if (FAILED(hr)) return hr;

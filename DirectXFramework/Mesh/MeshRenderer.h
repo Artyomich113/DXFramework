@@ -1,6 +1,6 @@
 #pragma once
-#include "Component.h"
-#include "Framework.h"
+#include "../Component.h"
+#include "../Framework.h"
 #include "Mesh.h"
 
 class Camera;
@@ -18,7 +18,7 @@ public:
 	std::string ShaderName;
 
 	SimpleVertex *Vertices;
-	WORD * Indices;
+	
 
 	MeshRenderer(SimpleVertex*,WORD*, /*std::string,*/int indexes,int verteces);
 	

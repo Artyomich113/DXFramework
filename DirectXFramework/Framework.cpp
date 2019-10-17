@@ -41,9 +41,9 @@ bool Framework::Initialize(std::string name)
 {
 	dxmanager = new DXManager();
 	
-	char *Name = new char[name.size() + 1];
-	strcpy_s(Name,sizeof(Name),name.c_str());
-	if (!CreateDXWindow(Name, WINDOW_POSX, WINDOW_POSY, SCREEN_HEIGHT, SCREEN_WIGHT)) 
+	//char *Name = new char[name.size() + 1];
+	//strcpy_s(Name,sizeof(Name),name.c_str());
+	if (!CreateDXWindow(name, WINDOW_POSX, WINDOW_POSY, SCREEN_HEIGHT, SCREEN_WIGHT)) 
 	{
 		return false;
 	}
@@ -83,7 +83,7 @@ void Layout(shared<std::list<Component*>> components, std::chrono::milliseconds 
 		{
 			(*it)->process();
 		}
-		std::cout << "clearRawInput";
+		//std::cout << "clearRawInput";
 		Framework::instanse().mouse.ClearRawInput();
 		std::this_thread::sleep_until(time);
 	}

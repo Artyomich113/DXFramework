@@ -22,8 +22,8 @@ using shared = std::shared_ptr<T>;
 class Framework
 {
 	Framework();
-	~Framework();
 public:
+	~Framework();
 	
 	static Framework& instanse()
 	{

@@ -62,11 +62,11 @@ void Framework::AddGameobject(Gameobject * object)
 
 void Framework::AddComponent(Component *component)
 {
-
-
+	std::cout << "\ncomponent type";
 	Component::Layout type = component->ComponentType();
 
 
+	std::cout << "\npush back " << type;
 	ComponentsByLayout[type]->push_back(component);
 }
 
@@ -206,6 +206,15 @@ bool Framework::CreateDXWindow(std::string name, int x, int y, int height, int w
 	return S_OK;*/
 }
 
+void cleanupLayout(std::shared_ptr<std::list<Component*>> listptr)
+{
+	for (auto it = listptr->begin(); it != listptr->end(); it++)
+	{
+		std::cout << "\ndeleting component " << *it;
+		delete *it;
+	}
+}
+
 Framework::~Framework()
 {
     if (FULL_SCREEN)
@@ -216,11 +225,13 @@ Framework::~Framework()
 	g_hIns = nullptr;
 	for (auto it = gameobjects.begin(); it != gameobjects.end(); it++)
 	{
-		//Gameobject * localgm = (*it);
 		delete (*it);
 	}
 	//gameobjects.erase(gameobjects.begin(),gameobjects.end());
 	delete dxmanager;
+	cleanupLayout(ComponentsByLayout[Component::Layout::GameLogic]);
+	cleanupLayout(ComponentsByLayout[Component::Layout::Render]);
+	
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {

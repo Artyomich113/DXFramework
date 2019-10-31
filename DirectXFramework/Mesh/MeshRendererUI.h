@@ -19,7 +19,6 @@ public:
 
 	SimpleVertex *Vertices;
 	
-
 	MeshRendererUI(SimpleVertex*, WORD*, /*std::string,*/int indexes, int verteces);
 
 	D3D11_INPUT_ELEMENT_DESC * layout();

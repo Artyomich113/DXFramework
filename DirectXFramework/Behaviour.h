@@ -83,8 +83,10 @@ public:
 	Layout ComponentType() { return Layout::GameLogic; };
 	Controller(float speed, float angle)
 	{
+		std::cout << " new controller";
 		this->angle = angle * XM_PI / 180.0f;
 		this->speed = speed;
 	}
+	~Controller();
 	void process();
 };

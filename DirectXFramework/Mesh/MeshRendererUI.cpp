@@ -12,6 +12,7 @@ MeshRendererUI::MeshRendererUI(const MeshRendererUI &ob)
 
 	shaderPointers = ob.shaderPointers;
 	dxmanager = Framework::instanse().GetDXManager();
+	copy = true;
 }
 
 HRESULT MeshRendererUI::InitMesh()
@@ -31,9 +32,9 @@ HRESULT MeshRendererUI::InitMesh()
 	ZeroMemory(&InitData, sizeof(InitData));	// очищаем ее
 	InitData.pSysMem = Vertices;				// указатель на наши 8 вершин
 	// Вызов метода g_pd3dDevice создаст объект буфера вершин
-	std::cout << "\n   createbuffer";
+	//std::cout << "\n   createbuffer";
 	hr = dxmanager->m_device->CreateBuffer(&bd, &InitData, &g_pVertexBuffer);
-	std::cout << "\n   buffer created";
+	//std::cout << "\n   buffer created";
 	if (FAILED(hr))
 	{
 		std::cout << "\n  failed create vertices buffer " << NumOfVerteces << " vecteces";
@@ -70,11 +71,13 @@ HRESULT MeshRendererUI::InitMesh()
 		std::cout << "\nfailed create costant buffer";
 		return hr;
 	}
+	std::cout << "\ninit mesh/";
 	return hr;
 }
 
 MeshRendererUI::MeshRendererUI(SimpleVertex *vertices, WORD* indices, int NumberOfIndexes, int NumberOfVerteces)
 {
+	//std::cout << " new meh RendererUI";
 	Vertices = vertices;
 	Indices = indices;
 	this->NumOfIndexes = NumberOfIndexes;
@@ -88,7 +91,7 @@ D3D11_INPUT_ELEMENT_DESC * MeshRendererUI::layout()
 	layout[0] = { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 	layout[1] = { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 
-	std::cout << "\nReturning Layout " << layout;
+	//std::cout << "\nReturning Layout " << layout;
 	return layout;
 }
 
@@ -99,11 +102,7 @@ UINT MeshRendererUI::NumberOfElements()
 
 MeshRendererUI::~MeshRendererUI()
 {
-	if (g_pConstantBuffer)g_pConstantBuffer->Release();
-	if (g_pIndexBuffer)g_pIndexBuffer->Release();
-	if (g_pVertexBuffer)g_pVertexBuffer->Release();
-	delete Vertices;
-	delete Indices;
+	//std::cout << "\n~MeshRendererUI";
 }
 
 void MeshRendererUI::process()
@@ -113,10 +112,7 @@ void MeshRendererUI::process()
 	//XMMATRIX mRotation = XMMatrixRotationRollPitchYawFromVector(gameobject->transform->Rotation);
 
 	XMMATRIX mTranslate = XMMatrixTranslationFromVector(gameobject->transform->Position);
-
 	XMMATRIX mscale = XMMatrixScalingFromVector(gameobject->transform->LocalScale);
-
-
 	XMMATRIX g_World = mscale * mRotation * mTranslate;
 
 	ConstantBufferUI cb;
@@ -130,14 +126,16 @@ void MeshRendererUI::process()
 	//std::cout << "\ng_Projection";
 	//cb.mProjection = XMMatrixTranspose(Framework::instanse().camera->GetProjection());
 	//cb.mProjection = XMMatrixTranspose(Framework::instanse().camera->g_Projection);
-	cb.mProjection = XMMatrixTranspose(XMMatrixOrthographicOffCenterLH(-2.0f,2.0f,-2.0f,2.0f,0.01f,100.0f));
+	//cb.mProjection = XMMatrixTranspose(XMMatrixOrthographicOffCenterLH(-10.0f, 10.0f, -10.0f, 10.0f, 0.01f, 100.0f));
+	cb.mProjection = XMMatrixTranspose(XMMatrixScaling(1.0f,1.0f,0.0f));
 	//std::cout << "\nsubresource";
 	UINT stride = sizeof(SimpleVertex);
 	UINT offset = 0;
 
 	ID3D11DeviceContext *id3d11devicecontext = dxmanager->m_deviceContext;
 
-	//id3d11devicecontext->UpdateSubresource(g_pConstantBuffer, 0, NULL, &cb, 0, 0);
+	id3d11devicecontext->IASetInputLayout(shaderPointers.g_pVertexLayout);
+
 	id3d11devicecontext->UpdateSubresource(g_pConstantBuffer, 0, NULL, &cb, 0, 0);
 
 	id3d11devicecontext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);

@@ -63,6 +63,9 @@
     <ClCompile Include="Mesh\MeshRenderer.cpp">
       <Filter>Source Files\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh\MeshRendererTextured.cpp">
+      <Filter>Source Files\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -110,10 +113,17 @@
     <ClInclude Include="Mesh\MeshRenderer.h">
       <Filter>Header Files\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="Mesh\MeshRendererTextured.h">
+      <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="urok4.fx" />
     <FxCompile Include="UIShader.fx" />
+    <FxCompile Include="TextureShader.fx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

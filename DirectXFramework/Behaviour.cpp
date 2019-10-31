@@ -65,6 +65,11 @@ void RotateV::process()
 	gameobject->transform->Rotate(x,y,z);
 }
 
+Controller::~Controller()
+{
+	std::cout << "\n~controller";
+}
+
 void Controller::process()
 {
 	

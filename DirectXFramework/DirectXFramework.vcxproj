@@ -24,6 +24,7 @@
     <ClCompile Include="DXManager.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="Gameobject.cpp" />
+    <ClCompile Include="Mesh\MeshRendererTextured.cpp" />
     <ClCompile Include="Mesh\Mesh.cpp" />
     <ClCompile Include="Mesh\MeshRenderer.cpp" />
     <ClCompile Include="Mesh\MeshRendererUI.cpp" />
@@ -39,9 +40,11 @@
     <ClInclude Include="DXManager.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Gameobject.h" />
+    <ClInclude Include="Mesh\MeshRendererTextured.h" />
     <ClInclude Include="Mesh\Mesh.h" />
     <ClInclude Include="Mesh\MeshRenderer.h" />
     <ClInclude Include="Mesh\MeshRendererUI.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Mouse\MouseClass.h" />
     <ClInclude Include="Mouse\MouseEvent.h" />
     <ClInclude Include="resource.h" />
@@ -50,6 +53,7 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="TextureShader.fx" />
     <FxCompile Include="UIShader.fx" />
     <FxCompile Include="urok4.fx" />
   </ItemGroup>

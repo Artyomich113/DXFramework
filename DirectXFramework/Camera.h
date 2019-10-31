@@ -11,7 +11,7 @@ class DXManager;
 class Camera: virtual public Component
 {
 	public:	
-		Layout ComponentType(){return Layout::Render;};
+	Layout ComponentType(){return Layout::Render;};
 	XMMATRIX g_view;
 	XMMATRIX g_Projection;
 	Camera();
@@ -24,6 +24,12 @@ class Camera: virtual public Component
 		throw std::bad_alloc();
 
 		return p;
+	}
+
+	void operator delete(void * p)
+	{
+		std::cout << "\ndelete camera overload ";
+		_aligned_free(p);
 	}
 
 	void process();

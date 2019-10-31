@@ -5,22 +5,21 @@ HRESULT CompileShaderFromFile(LPCSTR szFileName, LPCSTR szEntryPoint, LPCSTR szS
 
 HRESULT Mesh::InitShader(std::string ShaderName)
 {
-	DXManager* dxmanager = Framework::instanse().dxmanager;
-	
-	auto it = dxmanager->Shaders.find(ShaderName);
+	HRESULT hr;
 
+	DXManager* dxmanager = Framework::instanse().dxmanager;
+
+	auto it = dxmanager->Shaders.find(ShaderName);
+	
 	if (it != dxmanager->Shaders.end())
 	{
-		std::cout << "\nFound Shader Pointer";
+		std::cout << "\nFound Shader Pointer " << ShaderName;
 		shaderPointers = dxmanager->Shaders[ShaderName];
 		return S_OK;
 	}
 
-	std::cout << "\nCreating Shader Pointer";
+	std::cout << "\nCreating Shader Pointer " << ShaderName;
 
-	HRESULT hr;
-
-	
 	// Компиляция вершинного шейдера из файла
 	ID3DBlob* pVSBlob = NULL; // Вспомогательный объект - просто место в оперативной памяти
 
@@ -41,20 +40,7 @@ HRESULT Mesh::InitShader(std::string ShaderName)
 		return hr;
 	};
 
-	/*D3D11_INPUT_ELEMENT_DESC layout[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};*/
-	//UINT numElements = ARRAYSIZE(layout);
-
-	// Создание шаблона вершин
-	//*D3D11_INPUT_ELEMENT_DESC layout[] =
-	//{
-	//	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	//	{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	//};*/
-	//std::cout << "\ncreate input layout" << layout;
+	
 	D3D11_INPUT_ELEMENT_DESC * lay = layout();
 	hr = dxmanager->m_device->CreateInputLayout(lay, NumberOfElements(), pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), &shaderPointers.g_pVertexLayout);
 	delete lay;
@@ -63,7 +49,7 @@ HRESULT Mesh::InitShader(std::string ShaderName)
 	if (FAILED(hr)) return hr;
 
 	// Подключение шаблона вершин
-	dxmanager->m_deviceContext->IASetInputLayout(shaderPointers.g_pVertexLayout);
+	//dxmanager->m_deviceContext->IASetInputLayout(shaderPointers.g_pVertexLayout);
 
 	// Компиляция пиксельного шейдера из файла
 	std::cout << "\ncompile pixel shader";
@@ -80,9 +66,24 @@ HRESULT Mesh::InitShader(std::string ShaderName)
 	pPSBlob->Release();
 	if (FAILED(hr)) return hr;
 
-	dxmanager->Shaders.insert(std::pair<std::string,ShaderPointers>(ShaderName,shaderPointers));
-	
+	dxmanager->Shaders.insert(std::pair<std::string, ShaderPointers>(ShaderName, shaderPointers));
+
 	std::cout << "\nshader initialized";
 	return hr;
-	
+
+}
+
+Mesh::~Mesh()
+{
+	std::cout << "\n~mesh";
+	std::cout << "c" << g_pConstantBuffer;
+	if (copy == false)
+	{
+		if (g_pConstantBuffer)
+			g_pConstantBuffer->Release();
+		if (g_pIndexBuffer)
+			g_pIndexBuffer->Release();
+		if (g_pVertexBuffer)
+			g_pVertexBuffer->Release();
+	}
 }

@@ -60,6 +60,7 @@ void Camera::SetProjection(CXMMATRIX proj)
 */
 Camera::Camera()
 {
+	std::cout << "new camera";
 	//SetProjection(XMMatrixPerspectiveFovLH(XM_PIDIV4, SCREEN_WIGHT / (FLOAT)SCREEN_HEIGHT, 0.01f, 100.0f));
 	g_Projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, SCREEN_WIGHT / (FLOAT)SCREEN_HEIGHT, 0.01f, 100.0f);
 

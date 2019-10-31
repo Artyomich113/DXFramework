@@ -15,22 +15,29 @@ void Gameobject::procedure()
 void Gameobject::AddComponent(Component * component)
 {
 
+	std::cout << "\npushback " << name;
 	components.push_back(component);
+
 	component->gameobject = this;
 
+	std::cout << "\naddcomponent " << name;
 	Framework::instanse().AddComponent(component);
 }
 
 Gameobject::Gameobject()
 {
+	name = "GameObject";
+	transform = new Transform();
+}
+
+Gameobject::Gameobject(std::string name)
+{
+	this->name = name;
 	transform = new Transform();
 }
 
 Gameobject::~Gameobject()
 {
-	/*for (auto it = components.begin(); it != components.end(); it++)
-	{
-		delete (*it);
-	}*/
+	std::cout << "\ndelete gm";
 	delete transform;
 }

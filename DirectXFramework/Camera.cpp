@@ -60,6 +60,7 @@ void Camera::SetProjection(CXMMATRIX proj)
 */
 Camera::Camera()
 {
+	std::cout << "new camera";
 	//SetProjection(XMMatrixPerspectiveFovLH(XM_PIDIV4, SCREEN_WIGHT / (FLOAT)SCREEN_HEIGHT, 0.01f, 100.0f));
 	g_Projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, SCREEN_WIGHT / (FLOAT)SCREEN_HEIGHT, 0.01f, 100.0f);
 
@@ -84,7 +85,7 @@ void Camera::process()
 	float val = sgn(gameobject->transform->Up().m128_f32[1]);
 
 	//SetView(XMMatrixLookAtLH(gameobject->transform->Position,gameobject->transform->Position + gameobject->transform->Forward(),XMVectorSet(0.0f, val/*sgn(gameobject->transform->Up().m128_f32[1])*/,0.0f,0.0f)));
-	g_view = XMMatrixLookAtLH(gameobject->transform->Position, gameobject->transform->Position + gameobject->transform->Forward(), XMVectorSet(0.0f, val/*sgn(gameobject->transform->Up().m128_f32[1])*/, 0.0f, 0.0f));
+	g_view = XMMatrixLookToLH(gameobject->transform->Position, gameobject->transform->Forward(), XMVectorSet(0.0f, val/*sgn(gameobject->transform->Up().m128_f32[1])*/, 0.0f, 0.0f));
 
 
 	//SetView(XMMatrixLookToLH(gameobject->transform->Position,gameobject->transform->Rotation,XMVectorSet(0.0f, val/*sgn(gameobject->transform->Up().m128_f32[1])*/, 0.0f, 0.0f)));

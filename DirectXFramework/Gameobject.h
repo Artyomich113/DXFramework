@@ -13,5 +13,6 @@ public:
 	void procedure();
 	void AddComponent(Component*);
 	Gameobject();
+	Gameobject(std::string);
 	~Gameobject();
 };

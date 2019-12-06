@@ -9,13 +9,17 @@ MeshRenderer::MeshRenderer(const MeshRenderer &ob)
 	g_pVertexBuffer = ob.g_pVertexBuffer;
 	g_pIndexBuffer = ob.g_pIndexBuffer;
 	g_pConstantBuffer = ob.g_pConstantBuffer;
-	dxmanager = Framework::instanse().GetDXManager();
-}
 
+
+	shaderPointers = ob.shaderPointers;
+	dxmanager = Framework::instanse().GetDXManager();
+	copy = true;
+}
+/*
 HRESULT MeshRenderer::InitShader(std::string name)
 {
 	return dxmanager->InitShader(name);
-}
+}*/
 
 HRESULT MeshRenderer::InitMesh()
 {
@@ -57,16 +61,7 @@ HRESULT MeshRenderer::InitMesh()
 	return hr;
 	}
 
-	// Установка буфера вершин
-	//UINT stride = sizeof(SimpleVertex);
-	//UINT offset = 0;
-	//std::cout <<"\n    IASetVertexBuffers";
-	//dxmanager->m_deviceContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
-	// Установка буфера индексов
-	//std::cout << "\n   IASetIndexBuffer";
-	//dxmanager->m_deviceContext->IASetIndexBuffer(g_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
-	// Установка способа отрисовки вершин в буфере
-	//std::cout << "\n   IASetPrimitiveTopology";
+	
 	dxmanager->m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// Создание константного буфера
@@ -85,9 +80,9 @@ HRESULT MeshRenderer::InitMesh()
 	return hr;
 }
 
-MeshRenderer::MeshRenderer(SimpleVertex *vertices, WORD* indices, /*std::string shadername,*/int NumberOfIndexes, int NumberOfVerteces)
+MeshRenderer::MeshRenderer(SimpleVertex *vertices, WORD* indices, int NumberOfIndexes, int NumberOfVerteces)
 {
-	//ShaderName = shadername;
+	//std::cout << " new meh Renderer";
 	Vertices = vertices;
 	Indices = indices;
 	this->NumOfIndexes = NumberOfIndexes;
@@ -103,11 +98,29 @@ MeshRenderer::MeshRenderer(SimpleVertex *vertices, WORD* indices, /*std::string 
 
 MeshRenderer::~MeshRenderer()
 {
-	if(g_pConstantBuffer)g_pConstantBuffer->Release();
-	if(g_pIndexBuffer)g_pIndexBuffer->Release();
-	if(g_pVertexBuffer)g_pVertexBuffer->Release();
-	delete Vertices;
-	delete Indices;
+	std::cout << "\n~MeshRenderer";
+}
+
+D3D11_INPUT_ELEMENT_DESC * MeshRenderer::layout()
+{
+	
+	D3D11_INPUT_ELEMENT_DESC *layout = new D3D11_INPUT_ELEMENT_DESC[2];
+	layout[0] = { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 };
+	layout[1] = { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 };
+	/*D3D11_INPUT_ELEMENT_DESC layout[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};*/
+	
+	std::cout << "\nReturning Layout " << layout;
+	return layout;
+}
+
+UINT MeshRenderer::NumberOfElements()
+{
+std::cout << "\nreturning number of elements " << 2;
+	return (UINT)2;//ARRAYSIZE(layout);
 }
 
 inline void MeshRenderer::process()
@@ -120,17 +133,9 @@ inline void MeshRenderer::process()
 
 	XMMATRIX mscale = XMMatrixScalingFromVector(gameobject->transform->LocalScale);
 
-	//std::cout << "\n" << dxmanager->g_World._11 << " " << dxmanager->g_World._12 << " " << dxmanager->g_World._13 << " " << dxmanager->g_World._14 << "\n";
-	//std::cout << dxmanager->g_World._21 << " " << dxmanager->g_World._22 << " " << dxmanager->g_World._23 << " " << dxmanager->g_World._24 << "\n";
-	//::cout << dxmanager->g_World._31 << " " << dxmanager->g_World._32 << " " << dxmanager->g_World._33 << " " << dxmanager->g_World._34 << "\n";
-	//std::cout << dxmanager->g_World._41 << " " << dxmanager->g_World._42 << " " << dxmanager->g_World._43 << " " << dxmanager->g_World._44 << "\n";
-
+	
 	XMMATRIX g_World = mscale * mRotation * mTranslate;
-	//std::cout << "\n" << dxmanager->g_World._11 <<" "<< dxmanager->g_World._12<<" " << dxmanager->g_World._13<<" " << dxmanager->g_World._14 << "\n";
-	//std::cout << dxmanager->g_World._21 << " " << dxmanager->g_World._22 << " " << dxmanager->g_World._23 << " " << dxmanager->g_World._24 << "\n";
-	//std::cout << dxmanager->g_World._31 << " " << dxmanager->g_World._32 << " " << dxmanager->g_World._33 << " " << dxmanager->g_World._34 << "\n";
-	//std::cout << dxmanager->g_World._41 << " " << dxmanager->g_World._42 << " " << dxmanager->g_World._43 << " " << dxmanager->g_World._44 << "\n";
-	//std::cout << "\nConstantBuffer";
+	
 	ConstantBuffer cb;
 	//std::cout << "\ng_World";
 	cb.mWorld = XMMatrixTranspose(g_World);
@@ -146,6 +151,9 @@ inline void MeshRenderer::process()
 
 	ID3D11DeviceContext *id3d11devicecontext = dxmanager->m_deviceContext;
 
+	id3d11devicecontext->IASetInputLayout(shaderPointers.g_pVertexLayout);
+
+	
 	id3d11devicecontext->UpdateSubresource(g_pConstantBuffer, 0, NULL, &cb, 0, 0);
 
 	id3d11devicecontext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
@@ -154,8 +162,9 @@ inline void MeshRenderer::process()
 
 
 	//std::cout << "\nContext";
-	id3d11devicecontext->VSSetShader(dxmanager->m_VertexShader, NULL, 0);
+	
+	id3d11devicecontext->VSSetShader(shaderPointers.m_VertexShader, NULL, 0);
 	id3d11devicecontext->VSSetConstantBuffers(0, 1, &g_pConstantBuffer);
-	id3d11devicecontext->PSSetShader(dxmanager->m_PixelShader, NULL, 0);
+	id3d11devicecontext->PSSetShader(shaderPointers.m_PixelShader, NULL, 0);
 	id3d11devicecontext->DrawIndexed(NumOfIndexes, 0, 0);
 }

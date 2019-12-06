@@ -23,6 +23,10 @@ Framework::Framework()
 		}
 		raw_input_initialized = true;
 	}
+	IsRunning = true;
+
+	ComponentsByLayout.insert( std::pair<Component::Layout,shared<std::list<Component*>>>(Component::Layout::GameLogic, shared<std::list<Component*>>(new std::list<Component*>)));
+	ComponentsByLayout.insert( std::pair<Component::Layout, shared<std::list<Component*>>>(Component::Layout::Render, shared<std::list<Component*>>(new std::list<Component*>)));
 }
 
 void Framework::proceedAllGameobjects()
@@ -37,9 +41,9 @@ bool Framework::Initialize(std::string name)
 {
 	dxmanager = new DXManager();
 	
-	char *Name = new char[name.size() + 1];
-	strcpy_s(Name,sizeof(Name),name.c_str());
-	if (!CreateDXWindow(Name, WINDOW_POSX, WINDOW_POSY, SCREEN_HEIGHT, SCREEN_WIGHT)) 
+	//char *Name = new char[name.size() + 1];
+	//strcpy_s(Name,sizeof(Name),name.c_str());
+	if (!CreateDXWindow(name, WINDOW_POSX, WINDOW_POSY, SCREEN_HEIGHT, SCREEN_WIGHT)) 
 	{
 		return false;
 	}
@@ -56,6 +60,35 @@ void Framework::AddGameobject(Gameobject * object)
 	gameobjects.push_back(object);
 }
 
+void Framework::AddComponent(Component *component)
+{
+	std::cout << "\ncomponent type";
+	Component::Layout type = component->ComponentType();
+
+
+	std::cout << "\npush back " << type;
+	ComponentsByLayout[type]->push_back(component);
+}
+
+void Layout(shared<std::list<Component*>> components, std::chrono::milliseconds milliseconds)
+{
+	auto time = std::chrono::steady_clock::now();
+	auto step = milliseconds;
+	int i=0;
+	while (Framework::instanse().IsRunning)
+	{
+		//std::cout << "\n" << ++i;
+		time += step;
+		for (auto it = components->begin(); it != components->end(); it++)
+		{
+			(*it)->process();
+		}
+		//std::cout << "clearRawInput";
+		Framework::instanse().mouse.ClearRawInput();
+		std::this_thread::sleep_until(time);
+	}
+}
+
 MSG Framework::Run()
 {
 	//ShowCursor(false);
@@ -65,6 +98,9 @@ MSG Framework::Run()
 	auto next = std::chrono::steady_clock::now();
 	auto step = std::chrono::milliseconds(1000l/ FRAME_RATE);
 	MouseEvent me;
+
+	shared<std::list<Component*>> RenderComponents = ComponentsByLayout[Component::Layout::Render];
+	std::thread GameLogic(Layout,ComponentsByLayout[Component::Layout::GameLogic],std::chrono::milliseconds(20));
 	while (msg.message != WM_QUIT)
 	{
 		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)) {
@@ -87,14 +123,20 @@ MSG Framework::Run()
 				//std::cout << "\nevent " << me.GetPosX() << " " << me.GetPosY();
 			}
 			//std::cout <<"\n" <<  mouse.RawInput.x << " " << mouse.RawInput.y;
-			proceedAllGameobjects();
-			mouse.ClearRawInput();
-			//std::cout << "\nprocced gm/";
+			//proceedAllGameobjects();
+			for (auto it = RenderComponents->begin(); it != RenderComponents->end(); it++)
+			{
+				(*it)->process();
+			}
+			/*std::cout << "clearRawInput";
+			mouse.ClearRawInput();*/
 			dxmanager->m_swapChain->Present(0, 0);
 
 			if (GetKeyState('L') & 0x8000)
 			{
 				msg.message = WM_QUIT;
+				IsRunning = false;
+				GameLogic.join();
 			}
 			std::this_thread::sleep_until(next);
 		}
@@ -164,6 +206,15 @@ bool Framework::CreateDXWindow(std::string name, int x, int y, int height, int w
 	return S_OK;*/
 }
 
+void cleanupLayout(std::shared_ptr<std::list<Component*>> listptr)
+{
+	for (auto it = listptr->begin(); it != listptr->end(); it++)
+	{
+		std::cout << "\ndeleting component " << *it;
+		delete *it;
+	}
+}
+
 Framework::~Framework()
 {
     if (FULL_SCREEN)
@@ -174,11 +225,13 @@ Framework::~Framework()
 	g_hIns = nullptr;
 	for (auto it = gameobjects.begin(); it != gameobjects.end(); it++)
 	{
-		//Gameobject * localgm = (*it);
 		delete (*it);
 	}
 	//gameobjects.erase(gameobjects.begin(),gameobjects.end());
 	delete dxmanager;
+	cleanupLayout(ComponentsByLayout[Component::Layout::GameLogic]);
+	cleanupLayout(ComponentsByLayout[Component::Layout::Render]);
+	
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
